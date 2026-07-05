@@ -14,7 +14,7 @@ import (
 func main() {
 	cfg := config.Load()
 
-	db, err := infrastructure.NewDatabase(cfg)
+	db, err := infrastructure.NewDatabase(&cfg)
 	if err != nil {
 		log.Fatal(err)
 	}

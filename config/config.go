@@ -1,5 +1,12 @@
 package config
 
+import (
+	"log"
+	"os"
+	
+	"github.com/joho/godotenv"
+)
+
 type Config struct {
 	DBHost     string
 	DBPort     string
@@ -9,13 +16,18 @@ type Config struct {
 	DBSSLMode  string
 }
 
-func Load() *Config {
-	return &Config{
-		DBHost:     "localhost",
-		DBPort:     "5432",
-		DBUser:     "goapp",
-		DBPassword: "123456",
-		DBName:     "productdb",
-		DBSSLMode:  "disable",
+func Load() Config {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: .env file not found")
+	}
+
+	return Config{
+		DBHost:     os.Getenv("DB_HOST"),
+		DBPort:     os.Getenv("DB_PORT"),
+		DBUser:     os.Getenv("DB_USER"),
+		DBPassword: os.Getenv("DB_PASSWORD"),
+		DBName:     os.Getenv("DB_NAME"),
+		DBSSLMode:  os.Getenv("DB_SSLMODE"),
 	}
 }

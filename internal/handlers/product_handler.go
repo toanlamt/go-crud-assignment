@@ -8,14 +8,18 @@ import (
 	"github.com/toanlamt/go-crud-assignment/internal/services"
 )
 
+
 type ProductHandler struct {
-	service *services.ProductService
+    service services.ProductService
 }
 
-func NewProductHandler(service *services.ProductService) *ProductHandler {
-	return &ProductHandler{
-		service: service,
-	}
+func NewProductHandler(
+    service services.ProductService,
+) *ProductHandler {
+
+    return &ProductHandler{
+        service: service,
+    }
 }
 
 func (h *ProductHandler) Create(c *gin.Context) {

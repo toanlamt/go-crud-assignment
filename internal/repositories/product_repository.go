@@ -5,17 +5,25 @@ import (
 	"github.com/toanlamt/go-crud-assignment/internal/models"
 )
 
-type ProductRepository struct {
+type ProductRepository interface {
+    Create(product *models.Product) error
+    GetAll() ([]models.Product, error)
+    GetByID(id int) (*models.Product, error)
+    Update(product *models.Product) error
+    Delete(id int) error
+}
+
+type productRepository struct {
 	db *sql.DB
 }
 
-func NewProductRepository(db *sql.DB) *ProductRepository {
-	return &ProductRepository{
+func NewProductRepository(db *sql.DB) ProductRepository {
+	return &productRepository{
 		db: db,
 	}
 }
 
-func (r *ProductRepository) Create(product *models.Product) error {
+func (r *productRepository) Create(product *models.Product) error {
 	query := `
 		INSERT INTO products
 		(name, description, price, quantity)
@@ -38,7 +46,7 @@ func (r *ProductRepository) Create(product *models.Product) error {
 	return err
 }
 
-func (r *ProductRepository) GetAll() ([]models.Product, error) {
+func (r *productRepository) GetAll() ([]models.Product, error) {
 	query := `
 		SELECT id, name, description, price, quantity, created_at, updated_at
 		FROM products
@@ -80,7 +88,7 @@ func (r *ProductRepository) GetAll() ([]models.Product, error) {
 	return products, nil
 }
 
-func (r *ProductRepository) GetByID(id int) (*models.Product, error) {
+func (r *productRepository) GetByID(id int) (*models.Product, error) {
 	query := `
 		SELECT id, name, description, price, quantity, created_at, updated_at
 		FROM products
@@ -106,7 +114,7 @@ func (r *ProductRepository) GetByID(id int) (*models.Product, error) {
 	return &product, nil
 }
 
-func (r *ProductRepository) Update(product *models.Product) error {
+func (r *productRepository) Update(product *models.Product) error {
 	query := `
 		UPDATE products
 		SET
@@ -131,7 +139,7 @@ func (r *ProductRepository) Update(product *models.Product) error {
 	return err
 }
 
-func (r *ProductRepository) Delete(id int) error {
+func (r *productRepository) Delete(id int) error {
 	query := `
 		DELETE FROM products
 		WHERE id = $1
