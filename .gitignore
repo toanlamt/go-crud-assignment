@@ -1,0 +1,27 @@
+# Environment variables
+.env
+
+# Build output
+go-crud-assignment
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Test coverage
+*.out
+coverage.out
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

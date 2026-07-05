@@ -15,4 +15,10 @@ func RegisterRoutes(router *gin.Engine, handler *handlers.ProductHandler) {
 	router.PUT("/products/:id", handler.Update)
 
 	router.DELETE("/products/:id", handler.Delete)
+
+	router.GET("/health", func(c *gin.Context) {
+    c.JSON(200, gin.H{
+        "status": "ok",
+    })
+})
 }
